@@ -101,7 +101,7 @@ button:hover {
 						class="next" onclick="plusSlides(1)">&#10095;</a>
 				</div>
 				<div class="col-sm-6">
-					<form method="post" action="" style="border: 1px solid #ccc">
+					<form method="post" action="saveUserData" style="border: 1px solid #ccc">
 						<div class="container">
 							<h1>Sign Up</h1>
 							<p>Please fill in this form to create an account.</p>
