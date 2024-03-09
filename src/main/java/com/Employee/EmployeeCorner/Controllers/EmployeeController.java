@@ -1,13 +1,19 @@
 package com.Employee.EmployeeCorner.Controllers;
 
+import java.lang.System.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.Employee.EmployeeCorner.Controllers.Bean.CreateUserBean;
 import com.Employee.EmployeeCorner.Controllers.Bean.LoginReqBean;
 import com.Employee.EmployeeCorner.Controllers.Bean.LoginResBean;
 import com.Employee.EmployeeCorner.Service.LoginService;
@@ -34,7 +40,7 @@ public class EmployeeController {
 			System.out.println(" bean ================== "+bean);
 			if(bean!= null) {
 				if(bean.getStatus().equals("1")) {
-
+					map.put("userName", userid);
 					System.out.println(" login successfull ");
 					return "welcome";
 				}else {
@@ -58,12 +64,24 @@ public class EmployeeController {
 	}
 	@RequestMapping(value="/createUser", method=RequestMethod.GET)
 	public String createUser() {
-		System.out.println("Entered ============== login");
+		System.out.println("Entered ======create user======== login");
 		return "createUser";
 	}
-	@PostMapping("/saveUserData")
-	public String saveNewUserData() {
-		System.out.println(" entered==== save data");
-		return "entered save data";
+	@PostMapping(value="/saveUserData")
+	public String saveUserData(CreateUserBean userBean,ModelMap  map) {
+	    System.out.println("Received user data: " + userBean.toString());
+	    CreateUserBean respBean=loginservice.saveNewUserData(userBean);
+	    if("Successfull !!!".equals(respBean.getStatus())) {
+		map.put("name", "please enter valid  credentials");
+		map.put("phoneNumber", "please enter valid  credentials");
+		map.put("Dob", "please enter valid  credentials");
+		map.put("Email", "please enter valid  credentials");
+	    }else {
+			map.put("errrorMsg", "please enter valid  Details");
+
+	    }
+
+
+	    return "registrationSuccess";
 	}
 }
